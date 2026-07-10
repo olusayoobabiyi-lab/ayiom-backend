@@ -38,15 +38,37 @@ const startServer = async () => {
       console.log(`Server running on port ${PORT}`);
     });
 
-    const gracefulShutdown = (signal) => {
+    // const gracefulShutdown = (signal) => {
+    //   console.log(`\n${signal} received. Shutting down gracefully...`);
+    //   server.close(() => {
+    //     console.log("HTTP server closed.");
+    //     mongoose.connection.close(false, () => {
+    //       console.log("MongoDB connection closed.");
+    //       process.exit(0);
+    //     });
+    //   });
+    //   setTimeout(() => {
+    //     console.error("Forced shutdown after timeout.");
+    //     process.exit(1);
+    //   }, 10000);
+    // };
+    const gracefulShutdown = async (signal) => {
       console.log(`\n${signal} received. Shutting down gracefully...`);
-      server.close(() => {
+
+      server.close(async () => {
         console.log("HTTP server closed.");
-        mongoose.connection.close(false, () => {
+        try {
+          // Modern Mongoose uses promises instead of callbacks
+          await mongoose.connection.close();
           console.log("MongoDB connection closed.");
           process.exit(0);
-        });
+        } catch (err) {
+          console.error("Error closing MongoDB connection:", err.message);
+          process.exit(1);
+        }
       });
+
+      // Forced shutdown protection
       setTimeout(() => {
         console.error("Forced shutdown after timeout.");
         process.exit(1);
