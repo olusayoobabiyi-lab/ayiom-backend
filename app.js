@@ -54,24 +54,24 @@ app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(apiLimiter);
 
 // Health check
-app.get("/api/health", (_req, res) => {
+app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
 // Routers
-app.use("/api/auth", authRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/gallery", galleryRoutes);
-app.use("/api/calendar", calendarRoutes);
-app.use("/api/sermons", sermonRoutes);
-app.use("/api/homepage", homepageRoutes);
-app.use("/api/about", aboutRoutes);
-app.use("/api/mission", missionRoutes);
-app.use("/api/ministry", ministryRoutes);
-app.use("/api/registrations", registrationRoutes);
-app.use("/api/contact", contactRoutes);
-app.use("/api/settings", settingsRoutes);
-app.use("/api/activity-logs", activityLogRoutes);
+app.use("/auth", authRoutes);
+app.use("/events", eventRoutes);
+app.use("/gallery", galleryRoutes);
+app.use("/calendar", calendarRoutes);
+app.use("/sermons", sermonRoutes);
+app.use("/homepage", homepageRoutes);
+app.use("/about", aboutRoutes);
+app.use("/mission", missionRoutes);
+app.use("/ministry", ministryRoutes);
+app.use("/registrations", registrationRoutes);
+app.use("/contact", contactRoutes);
+app.use("/settings", settingsRoutes);
+app.use("/activity-logs", activityLogRoutes);
 
 // 404 for unmatched routes — must come after all routers
 app.use(notFound);
