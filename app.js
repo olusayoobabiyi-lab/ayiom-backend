@@ -24,6 +24,8 @@ import contactRoutes from "./routes/contactRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 import activityLogRoutes from "./routes/activityLogRoutes.js";
 
+const allowedOrigins = env.CLIENT_URLS.split(",").map((origin) => origin.trim());
+
 const app = express();
 
 // Security headers
@@ -35,7 +37,18 @@ app.use(compression());
 // CORS
 app.use(
   cors({
-    origin: env.CLIENT_URL,
+    origin: (origin, callback) => {
+      // Allow requests without an Origin header (e.g. Postman, server-to-server)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );

@@ -10,7 +10,7 @@ const requiredKeys = [
   "R2_PUBLIC_URL",
   "ADMIN_EMAIL",
   "ADMIN_PASSWORD",
-  "CLIENT_URL",
+  "CLIENT_URLS",
 ];
 
 const missing = requiredKeys.filter((key) => !process.env[key]);
@@ -34,7 +34,7 @@ export const env = Object.freeze({
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
-  CLIENT_URL: process.env.CLIENT_URL,
+  CLIENT_URLS: process.env.CLIENT_URLS,
   DB_PING_INTERVAL_MS: process.env.DB_PING_INTERVAL_MS
     ? parseInt(process.env.DB_PING_INTERVAL_MS, 10)
     : 300000,
